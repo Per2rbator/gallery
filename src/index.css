@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  padding: 0;
+  overflow: scroll;
+  overflow: overlay;
+  font-family: sans-serif;
+}
+
+.container {
+  width: 992px;
+  max-width: calc(100% - 2rem);
+  padding: 1rem;
+  margin: 0 auto;
+  /* border: 1px solid #ccc; */
+}
