@@ -31,12 +31,6 @@ export class Preview extends Component{
       comment: value
     }))
   }
-
-  handleClick = e => {
-    e.preventDefault()
-    if (e.target.className === 'preview') this.props.onClose()
-    if (e.key === 'Enter') this.acceptEdits()
-  }
   
   acceptEdits = () => {
     const link = this.props.item.link
@@ -48,7 +42,10 @@ export class Preview extends Component{
         comment: this.state.comment.trim()
       })
     } else {
-      this.props.acceptEdits({ imgUrl: link, comment })
+      this.props.acceptEdits({
+        imgUrl: link,
+        comment: comment.trim()
+      })
     }
 
     this.onClose()
@@ -64,7 +61,7 @@ export class Preview extends Component{
     const { item } = this.props
 
     return (
-      <div className="preview" onClick={ this.handleClick }>
+      <div className="preview">
         <div className="preview__box">
           <i
             className="material-icons preview__close"
@@ -83,7 +80,6 @@ export class Preview extends Component{
                 className="preview__comment-edit"
                 value={ this.state.comment }
                 onChange={ this.onChange }
-                onKeyUp={ this.handleClick}
               />
             </div>
           </div>

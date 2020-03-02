@@ -20,7 +20,6 @@ const notification = (state = initialState, action) => {
       const id = action.payload
       const itemIdx = state.notifications.findIndex(n => n.id === id)
       const item = state.notifications[itemIdx]
-      console.log('reducer', item)
 
       return {
         notifications: [

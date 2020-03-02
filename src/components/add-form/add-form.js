@@ -27,10 +27,6 @@ export class AddForm extends Component {
 
     this.props.closeForm()
   }
-    
-  clickToOverlay = (e) => {
-    if (e.target.className === 'add-form__overlay') this.close()
-  }
 
   addNewImage = e => {
     e.preventDefault()
@@ -58,7 +54,10 @@ export class AddForm extends Component {
           }
 
           if (res.headers.get('Content-Type').includes('image')) {
-            saveNewItem({ link: imageUrl, comment })
+            saveNewItem({
+              link: imageUrl,
+              comment: comment.trim()
+            })
 
             this.props.closeForm()
             this.props.openPreview()
@@ -75,7 +74,6 @@ export class AddForm extends Component {
           setPreloaderStatus(false)
         })
         .catch(err => {
-          console.log('err', err)
           this.props.showNotify('Ссылка битая')
           this.setState(() => ({ isButtonDisabled: false }))
           setPreloaderStatus(false)
@@ -97,52 +95,49 @@ export class AddForm extends Component {
   }
 
   render() {
-    if (this.props.isFormVisible) {
-      return (
-        <div className="add-form__overlay" onClick={ e => this.clickToOverlay(e) }>
-          <form className="add-form__form" onSubmit={ e => this.addNewImage(e) }>
-            <i
-              className="material-icons add-form__close"
-              onClick={ this.close }
-            >
-              close
-            </i>
-            <p className="add-form__heading">Add new picture</p>
-            <div className="add-form__input-wrapper">
-              <p className="add-form__explanation">Link:</p>
-              <input
-                data="imageUrl"
-                className="add-form__link"
-                type="text"
-                value={ this.state.imageUrl }
-                onChange={ e => this.handleChangeValue(e) }
-                placeholder="Enter image link"
-              />
-            </div>
-            <div className="add-form__input-wrapper">
-              <p className="add-form__explanation">Comment:</p>
-              <textarea
-                data="comment"
-                className="add-form__comment"
-                cols="30"
-                rows="3"
-                value={ this.state.comment }
-                onChange={ e => this.handleChangeValue(e) }
-                placeholder="Enter comment (optional)"
-              />
-            </div>
-            <button
-              className="add-form__add-new"
-              onClick={ this.addNewImage }
-              disabled={ this.state.isButtonDisabled }
-            >
-              Next
-            </button>
-          </form>
-        </div>
-      )
-    } else 
-      return null
+    return this.props.isFormVisible ? (
+      <div className="add-form__overlay">
+        <form className="add-form__form" onSubmit={ this.addNewImage }>
+          <i
+            className="material-icons add-form__close"
+            onClick={ this.close }
+          >
+            close
+          </i>
+          <p className="add-form__heading">Add new picture</p>
+          <div className="add-form__input-wrapper">
+            <p className="add-form__explanation">Link:</p>
+            <input
+              data="imageUrl"
+              className="add-form__link"
+              type="text"
+              value={ this.state.imageUrl }
+              onChange={ e => this.handleChangeValue(e) }
+              placeholder="Enter image link"
+            />
+          </div>
+          <div className="add-form__input-wrapper">
+            <p className="add-form__explanation">Comment:</p>
+            <textarea
+              data="comment"
+              className="add-form__comment"
+              cols="30"
+              rows="3"
+              value={ this.state.comment }
+              onChange={ e => this.handleChangeValue(e) }
+              placeholder="Enter comment (optional)"
+            />
+          </div>
+          <button
+            className="add-form__add-new"
+            disabled={ this.state.isButtonDisabled }
+            onClick={ this.addNewImage }
+          >
+            Next
+          </button>
+        </form>
+      </div>
+    ) : null
   }
 }
 
