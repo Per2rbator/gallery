@@ -47,7 +47,6 @@ export const appendNotification = notification => ({
 })
 
 export const hideNotification = id => {
-  console.log(id)
   return {
     type: 'HIDE_NOTIFICATION',
     payload: id
